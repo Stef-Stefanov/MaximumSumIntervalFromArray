@@ -20,7 +20,7 @@ public class MaxSumInterval {
         // Read array from the file
         try {
             double[] array = readArrayFromFile(filePath);
-            if (array == null || array.length < 2) {
+            if (array == null || array.length < 3) {
                 System.out.println("Invalid input. Program will terminate.");
                 return;
             }
@@ -79,30 +79,64 @@ public class MaxSumInterval {
     private static Result findMaxSumInterval(double[] array) {
 
         int arrayLength = array.length;
-        double maxSum = array[0] + array[1];
-        int maxA = 0;
-        int maxB = 1;
+        double maxSum = array[0];
+        int startInd = 0;
+        int currentStartInd = 0;
+        int endInd = 0;
+        int currentEndInd = 0;
         double currentSum = 0;
-        int first = 0;
-        int second = 1;
 
-        if (array.length == 2){
-            return new Result(maxSum, maxA, maxB);
-        }
+        // Iterate through the array and calculate the maximum sum subarray
+        for (int i = 0; i < arrayLength; i++) {
+            currentSum = currentSum + array[i];
+            if (currentSum > 0) {
+                if (currentSum >= maxSum){
+                    maxSum = currentSum;
 
-        // Since we are going through the arr once the bound cond needs to be one unit less than the arr.length
-        for (int i = 1; i < arrayLength - 1; i++) {
-            first++;
-            second++;
-            currentSum = array[first] + array[second];
-            if (maxSum < currentSum){
-                maxSum = currentSum;
-                maxA = first;
-                maxB = second;
+                    startInd = currentStartInd;
+                    endInd = currentEndInd++;
+                } else {
+                    currentEndInd++;
+                }
+            } else {
+                currentStartInd = i;
+                currentEndInd = i;
+                currentSum = array[i];
+                if (currentSum > maxSum){
+                    maxSum = currentSum;
+
+                    startInd = currentStartInd;
+                    endInd = currentEndInd++;
+                }
             }
         }
 
-        return new Result(maxSum, maxA, maxB);
+        // The code is purposefully extracted so that the main logic is more readable
+        if (maxSum < 0){
+            return handleFullNegativeArr(array);
+        }
+
+        return new Result(maxSum, startInd, endInd);
+    }
+
+    /**
+     * Handles the case where the entire array consists of negative numbers.
+     * This method finds the maximum (least negative) number in the array and
+     * returns a Result object with that number and its index.
+     *
+     * @param array The input array consisting of negative numbers.
+     * @return A Result object containing the maximum number in the array and its index.
+     */
+    private static Result handleFullNegativeArr(double[] array) {
+        double negativeNumber = array[0];
+        int index = 0;
+
+        for (double v : array) {
+            if (v > negativeNumber) {
+                negativeNumber = v;
+            }
+        }
+        return new Result(negativeNumber,index,index);
     }
 
     /**
