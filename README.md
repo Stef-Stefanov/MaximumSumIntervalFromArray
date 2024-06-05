@@ -1,7 +1,19 @@
 # MaximumSumIntervalFromArray
+
 A program that finds the maximum sum interval in an array A.
 The array is read from a text document whose location needs to be input from the console.
 
+To run the program:
+
+1. Run the following custom configuration:
+
+        clean compile exec:java -Dexec.mainClass=MaxSumInterval
+
+2. Alternatively use the following maven command:
+
+        mvn clean compile exec:java
+
+ ................................................................................
 
         The main logic of the program happens in findMaxSumInterval. 
         We iterate through the array once, and we check with a moving sum if the sum goes negative.
