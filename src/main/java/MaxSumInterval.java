@@ -131,9 +131,10 @@ public class MaxSumInterval {
         double negativeNumber = array[0];
         int index = 0;
 
-        for (double v : array) {
-            if (v > negativeNumber) {
-                negativeNumber = v;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] > negativeNumber) {
+                negativeNumber = array[i];
+                index = i;
             }
         }
         return new Result(negativeNumber,index,index);
