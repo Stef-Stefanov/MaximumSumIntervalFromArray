@@ -76,74 +76,37 @@ public class MaxSumInterval {
      * @param array The input array.
      * @return A Result object containing the maximum sum and the start and end indexes of the interval.
      */
-    private static Result findMaxSumInterval(double[] array) {
-
+    public static Result findMaxSumInterval(double[] array) {
         int arrayLength = array.length;
+
         double maxSum = array[0];
+        double currentSum = array[0];
         int startInd = 0;
         int currentStartInd = 0;
         int endInd = 0;
-        int currentEndInd = 0;
-        double currentSum = 0;
 
-        // Iterate through the array and calculate the maximum sum subarray
-        for (int i = 0; i < arrayLength; i++) {
-            currentSum = currentSum + array[i];
-            if (currentSum > 0) {
-                if (currentSum >= maxSum){
-                    maxSum = currentSum;
-
-                    startInd = currentStartInd;
-                    endInd = currentEndInd++;
-                } else {
-                    currentEndInd++;
-                }
+        for (int i = 1; i < arrayLength; i++) {
+            if (currentSum + array[i] > array[i]) {
+                currentSum += array[i];
             } else {
-                currentStartInd = i;
-                currentEndInd = i;
                 currentSum = array[i];
-                if (currentSum > maxSum){
-                    maxSum = currentSum;
-
-                    startInd = currentStartInd;
-                    endInd = currentEndInd++;
-                }
+                currentStartInd = i;
             }
-        }
 
-        // The code is purposefully extracted so that the main logic is more readable
-        if (maxSum < 0){
-            return handleFullNegativeArr(array);
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                startInd = currentStartInd;
+                endInd = i;
+            }
         }
 
         return new Result(maxSum, startInd, endInd);
     }
 
     /**
-     * Handles the case where the entire array consists of negative numbers.
-     * This method finds the maximum (least negative) number in the array and
-     * returns a Result object with that number and its index.
-     *
-     * @param array The input array consisting of negative numbers.
-     * @return A Result object containing the maximum number in the array and its index.
-     */
-    private static Result handleFullNegativeArr(double[] array) {
-        double negativeNumber = array[0];
-        int index = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] > negativeNumber) {
-                negativeNumber = array[i];
-                index = i;
-            }
-        }
-        return new Result(negativeNumber,index,index);
-    }
-
-    /**
      * A class to store the result of the maximum sum interval computation.
      */
-    private static class Result {
+    static class Result {
         double maxSum;
         int startIndex;
         int endIndex;

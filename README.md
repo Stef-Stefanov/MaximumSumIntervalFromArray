@@ -26,15 +26,6 @@ To run the program:
 
         Which is a considerable improvement over the cubic complexity of the straightfroward solution.
 
-        In handleFullNegativeArr we handle the case where all elements of the arr are negative
-        We iterate through the arr once finding the negative number closest to zero,
-        which would be the sole element of a maximum subarray consisting of entirely negative numbers
-        
-        In the case we have a full negative arr the complexity changes to 2xN. While we could incorporate
-        the logic in the main cycle, this will slow down considerably the general case solution, while having
-        a modest speeding up efect in all cases. It will also make the code considerably less readable.
-        It is for theese reasons I decided to extarct it in a seperate method.
-
 
 Rouglhy an example for the text doc should be as follows:
 Number of whitespaces is irrelevan as long as the digits are seperated.
